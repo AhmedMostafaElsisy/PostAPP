@@ -1,0 +1,71 @@
+package com.example.postapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.backendless.Backendless;
+import com.backendless.BackendlessUser;
+import com.backendless.async.callback.AsyncCallback;
+import com.backendless.exceptions.BackendlessFault;
+
+public class Login extends AppCompatActivity {
+    private Button singUp, login;
+    private EditText email, password;
+    private ProgressBar progressBar;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    SharedPreferences sharedpreferences;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        login = findViewById(R.id.login);
+        singUp = findViewById(R.id.singUp);
+        email = findViewById(R.id.email_login);
+        password = findViewById(R.id.password_login);
+        progressBar = findViewById(R.id.login_progress);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+    }
+
+    public void sendToSingUp(View view) {
+        Intent intent = new Intent(this, SingUp.class);
+        startActivity(intent);
+    }
+
+    public void login(View view) {
+        progressBar.setVisibility(View.VISIBLE);
+        Backendless.UserService.login(email.getText().toString(), password.getText().toString(), new AsyncCallback<BackendlessUser>() {
+            public void handleResponse(BackendlessUser user) {
+                Backendless.UserService.setCurrentUser(user);
+                progressBar.setVisibility(View.INVISIBLE);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                editor.putString("Email", email.getText().toString());
+                editor.putString("password", password.getText().toString());
+                editor.commit();
+                sendToMain();
+            }
+
+            public void handleFault(BackendlessFault fault) {
+                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(Login.this, "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void sendToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+}
