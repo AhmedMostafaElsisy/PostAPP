@@ -62,7 +62,7 @@ public class Adaptor extends RecyclerView.Adapter<Adaptor.ViewHolder> {
         Glide.with(mContext).load(post.getProfilePic()).into(holder.profileImage);
         holder.desc.setText(post.getDescription());
         holder.name.setText(post.getNameUser());
-      //  holder.date.setText(post.getDateUpload());
+        holder.date.setText(post.getDateUpload());
 
     }
 

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.backendless.Backendless;
@@ -26,7 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetUp extends AppCompatActivity implements IPickResult {
     Bitmap bitmap;
-    MaterialButton button;
+    Button button;
     TextInputEditText text;
     CircleImageView imageView;
     private String email, password;

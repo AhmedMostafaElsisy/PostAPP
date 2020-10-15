@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/signupColor"
+
     android:orientation="vertical"
     android:gravity="center"
     android:padding="20dp">
@@ -30,9 +30,9 @@
         android:drawableLeft="@drawable/ic_person_black_24dp"
         android:drawablePadding="10dp"
         android:hint="Email"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textColorHighlight="@color/white"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textColorHighlight="@color/black"
         android:inputType="text" />
 
     <EditText
@@ -46,16 +46,16 @@
         android:drawablePadding="10dp"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        android:textColorHighlight="@color/white"/>
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textColorHighlight="@color/black"/>
 
     <View
         android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="15dp"
-        android:background="@android:color/white" />
+        android:background="@android:color/black" />
 
     <Button
         android:id="@+id/login"
@@ -69,7 +69,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/shapelogin"/>
+        android:background="@drawable/shapesignup"
+        />
 
     <Button
         android:id="@+id/singUp"
@@ -83,8 +84,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="0dp"
-        android:background="@drawable/shapesignup"
-        android:textColor="@color/white"/>
+        android:background="@drawable/shapelogin"
+        android:textColor="@color/black"/>
 
 
 

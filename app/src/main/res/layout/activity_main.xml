@@ -19,5 +19,6 @@
         android:onClick="createPost"
         android:src="@drawable/ic_baseline_edit_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:backgroundTint="@color/signupColor"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

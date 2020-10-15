@@ -1,4 +1,3 @@
-
 package com.example.postapp.dataModel;
 
 import com.backendless.Backendless;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 
 public class Post
 {
@@ -31,8 +29,7 @@ public class Post
 
   public void setDateUpload( String dateUpload )
   {
-
-      SimpleDateFormat Format = new SimpleDateFormat("dd MMM yyyy ,hh:mm a", Locale.ENGLISH);
+      SimpleDateFormat Format = new SimpleDateFormat("hh:mm a , dd MMM yyyy", Locale.ENGLISH);
       this.dateUpload = Format.format(new Date(dateUpload));
   }
 
@@ -95,7 +92,6 @@ public class Post
   {
     this.profilePic = profilePic;
   }
-
                                                     
   public Post save()
   {
