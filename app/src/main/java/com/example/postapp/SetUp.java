@@ -15,6 +15,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.example.postapp.dataModel.Post;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetUp extends AppCompatActivity implements IPickResult {
     Bitmap bitmap;
-    Button button;
+    LoadingButton button;
     TextInputEditText text;
     CircleImageView imageView;
     private String email, password;
@@ -67,6 +68,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
     }
 
     private void createAccount(String response) {
+        button.startLoading();
         BackendlessUser user = new BackendlessUser();
         user.setProperty("email", email);
         user.setPassword(password);
@@ -74,11 +76,12 @@ public class SetUp extends AppCompatActivity implements IPickResult {
         user.setProperty("profilePic", response);
         Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
             public void handleResponse(BackendlessUser registeredUser) {
+                button.loadingSuccessful();
                 sendToMain();
             }
 
             public void handleFault(BackendlessFault fault) {
-
+                button.loadingFailed();
                 Toast.makeText(SetUp.this, "error", Toast.LENGTH_SHORT).show();
             }
         });

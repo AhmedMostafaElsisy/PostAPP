@@ -16,12 +16,14 @@ import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
+import com.dx.dxloadingbutton.lib.LoadingButton;
 
 public class Login extends AppCompatActivity {
-    private Button singUp, login;
+    private Button singUp;
+    LoadingButton login;
     private EditText email, password;
-    private ProgressBar progressBar;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+
+    public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sharedpreferences;
 
     @Override
@@ -32,7 +34,7 @@ public class Login extends AppCompatActivity {
         singUp = findViewById(R.id.singUp);
         email = findViewById(R.id.email_login);
         password = findViewById(R.id.password_login);
-        progressBar = findViewById(R.id.login_progress);
+
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
     }
@@ -43,13 +45,12 @@ public class Login extends AppCompatActivity {
     }
 
     public void login(View view) {
-        progressBar.setVisibility(View.VISIBLE);
+        login.startLoading();
         Backendless.UserService.login(email.getText().toString(), password.getText().toString(), new AsyncCallback<BackendlessUser>() {
             public void handleResponse(BackendlessUser user) {
                 Backendless.UserService.setCurrentUser(user);
-                progressBar.setVisibility(View.INVISIBLE);
+                login.loadingSuccessful();
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-
                 editor.putString("Email", email.getText().toString());
                 editor.putString("password", password.getText().toString());
                 editor.commit();
@@ -57,7 +58,7 @@ public class Login extends AppCompatActivity {
             }
 
             public void handleFault(BackendlessFault fault) {
-                progressBar.setVisibility(View.INVISIBLE);
+                login.loadingFailed();
                 Toast.makeText(Login.this, "error", Toast.LENGTH_SHORT).show();
             }
         });
