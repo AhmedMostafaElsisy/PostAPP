@@ -18,6 +18,7 @@ import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.example.postapp.MainActivity;
 import com.example.postapp.R;
 import com.example.postapp.dataModel.Post;
@@ -35,7 +36,7 @@ public class CreatePostFragment extends Fragment {
     Bitmap bitmap;
     ImageView imageView;
     EditText editText;
-    MaterialButton button;
+    LoadingButton button;
     ProgressBar progressBar;
     Post post = new Post();
 
@@ -90,6 +91,7 @@ public class CreatePostFragment extends Fragment {
             Toast.makeText(getActivity(), "please take image first", Toast.LENGTH_SHORT).show();
             return;
         }
+        button.startLoading();
         BackendlessUser user = Backendless.UserService.CurrentUser();
         String name = (String) user.getProperty("name");
 
@@ -112,7 +114,7 @@ public class CreatePostFragment extends Fragment {
                         Backendless.Data.of(Post.class).save(post, new AsyncCallback<Post>() {
                             @Override
                             public void handleResponse(Post response) {
-                                Toast.makeText(getActivity(), "postUpload", Toast.LENGTH_SHORT).show();
+                                button.loadingSuccessful();
                                 Intent intent = new Intent(getActivity(), MainActivity.class);
                                 startActivity(intent);
                                 getActivity().finish();
@@ -121,7 +123,7 @@ public class CreatePostFragment extends Fragment {
 
                             @Override
                             public void handleFault(BackendlessFault fault) {
-
+                                button.loadingFailed();
                                 Toast.makeText(getActivity(), "postUpload problem", Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -130,7 +132,7 @@ public class CreatePostFragment extends Fragment {
 
                     @Override
                     public void handleFault(BackendlessFault fault) {
-
+                        button.loadingFailed();
                         Toast.makeText(getActivity(), "image upload problem", Toast.LENGTH_SHORT).show();
                     }
                 });
