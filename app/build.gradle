@@ -58,5 +58,5 @@ dependencies {
     implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
     implementation 'com.github.StevenDXC:DxLoadingButton:2.4'
 
-
+    implementation 'com.wang.avi:library:2.1.3'
 }

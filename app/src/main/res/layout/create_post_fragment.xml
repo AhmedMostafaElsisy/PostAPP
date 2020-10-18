@@ -36,21 +36,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_post_image" />
 
-    <com.google.android.material.button.MaterialButton
+
+    <com.dx.dxloadingbutton.lib.LoadingButton
         android:id="@+id/post_btn"
-        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:lb_btnDisabledColor="#cccccc"
+        app:lb_btnRippleColor="#000000"
+        app:lb_btnText="@string/new_post_btn_hint"
+        app:lb_cornerRadius="32dp"
+        android:textAllCaps="false"
+        android:textSize="18sp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:padding="16dp"
-        android:text="@string/new_post_btn_hint"
-        android:textAllCaps="false"
-        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_post_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/new_post_desc"
+        app:lb_disabledTextColor="#999999"
+        app:lb_resetAfterFailed="true"
+        app:lb_rippleEnable="true" />
 
     <ProgressBar
         android:id="@+id/new_post_progress"

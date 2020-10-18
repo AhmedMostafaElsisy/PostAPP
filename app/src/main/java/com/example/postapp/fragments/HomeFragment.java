@@ -24,6 +24,7 @@ import com.example.postapp.MainActivity;
 import com.example.postapp.R;
 import com.example.postapp.adptor.Adaptor;
 import com.example.postapp.dataModel.Post;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +35,14 @@ public class HomeFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private Adaptor adaptor;
     List<Post> arrayList = new ArrayList<>();
+    private AVLoadingIndicatorView loadingIndicatorView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
-
+        loadingIndicatorView = view.findViewById(R.id.avi);
         Toast.makeText(getActivity(), "Home", Toast.LENGTH_SHORT).show();
         SharedPreferences sh = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment {
         if (email != null && password != null) {
             Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                 public void handleResponse(BackendlessUser user) {
-
+                    loadingIndicatorView.smoothToShow();
                     getData();
                 }
 
@@ -79,6 +81,7 @@ public class HomeFragment extends Fragment {
         Backendless.Data.of(Post.class).find(builder, new AsyncCallback<List<Post>>() {
             @Override
             public void handleResponse(List<Post> response) {
+                loadingIndicatorView.smoothToHide();
                 arrayList = response;
                 adaptor = new Adaptor(getActivity(), arrayList);
                 recyclerView.setAdapter(adaptor);

@@ -24,6 +24,8 @@ import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
 
+import java.util.Date;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetUp extends AppCompatActivity implements IPickResult {
@@ -32,7 +34,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
     TextInputEditText text;
     CircleImageView imageView;
     private String email, password;
-
+    Post post = new Post();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
     }
 
     private void createAccount(String response) {
-        button.startLoading();
+
         BackendlessUser user = new BackendlessUser();
         user.setProperty("email", email);
         user.setPassword(password);
@@ -77,6 +79,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
         Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
             public void handleResponse(BackendlessUser registeredUser) {
                 button.loadingSuccessful();
+                button.reset();
                 sendToMain();
             }
 
@@ -90,11 +93,12 @@ public class SetUp extends AppCompatActivity implements IPickResult {
 
     private void setUserProperty() {
 
-
+        button.startLoading();
         String name = text.getText().toString();
+        post.setDateUpload(new Date().toString());
         //upload image
         Backendless.Files.Android.upload(bitmap, Bitmap.CompressFormat.PNG, 30
-                , name + ".png"
+                , name +post.getDateUpload()+ ".png"
                 , "userProfilePic", new AsyncCallback<BackendlessFile>() {
                     @Override
                     public void handleResponse(BackendlessFile response) {
@@ -104,7 +108,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
 
                     @Override
                     public void handleFault(BackendlessFault fault) {
-
+                        button.loadingFailed();
                         Toast.makeText(SetUp.this, "image upload problem", Toast.LENGTH_SHORT).show();
                     }
                 });

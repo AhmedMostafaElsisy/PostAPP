@@ -50,6 +50,7 @@ public class Login extends AppCompatActivity {
             public void handleResponse(BackendlessUser user) {
                 Backendless.UserService.setCurrentUser(user);
                 login.loadingSuccessful();
+                login.reset();
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString("Email", email.getText().toString());
                 editor.putString("password", password.getText().toString());
