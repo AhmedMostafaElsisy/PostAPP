@@ -1,31 +1,22 @@
 package com.example.postapp.fragments;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.backendless.Backendless;
-import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.rt.data.EventHandler;
-import com.example.postapp.Login;
-import com.example.postapp.MainActivity;
 import com.example.postapp.R;
 import com.example.postapp.adptor.Adaptor;
 import com.example.postapp.dataModel.Post;
 import com.wang.avi.AVLoadingIndicatorView;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,27 +34,8 @@ public class HomeFragment extends Fragment {
 // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
         loadingIndicatorView = view.findViewById(R.id.avi);
-        Toast.makeText(getActivity(), "Home", Toast.LENGTH_SHORT).show();
-        SharedPreferences sh = this.getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        getData();
 
-        String email = sh.getString("Email", null);
-        String password = sh.getString("password", null);
-
-        if (email != null && password != null) {
-            Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
-                public void handleResponse(BackendlessUser user) {
-                    loadingIndicatorView.smoothToShow();
-                    getData();
-                }
-
-                public void handleFault(BackendlessFault fault) {
-                    Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        } else {
-            sendToLogin();
-        }
         return view;
     }
 
@@ -78,6 +50,7 @@ public class HomeFragment extends Fragment {
     private void getData() {
         setUpRecycleView();
         DataQueryBuilder builder = DataQueryBuilder.create();
+        builder.setSortBy("created DESC");
         Backendless.Data.of(Post.class).find(builder, new AsyncCallback<List<Post>>() {
             @Override
             public void handleResponse(List<Post> response) {
@@ -108,10 +81,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void sendToLogin() {
-        Toast.makeText(getActivity(), "no active user", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getActivity(), Login.class));
-        getActivity().finish();
-    }
+
 
 }

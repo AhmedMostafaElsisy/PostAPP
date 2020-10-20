@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="10dp"
-    tools:context=".fragments.ProfileFragment"
-    android:background="@color/blue_active">
+    tools:context=".fragments.ProfileFragment">
 
 
     <RelativeLayout
@@ -63,61 +63,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/full"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        >
+        android:layout_marginTop="20dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_local_phone_24"
-            android:contentDescription="@string/todo" />
-        <TextView
-            android:id="@+id/phoneNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Number of this shit"
-            android:textSize="20sp"
-            />
-    </LinearLayout>
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/gmail" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/L_phone"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="10dp"
-        >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_email_24"
-            android:contentDescription="@string/todo" />
         <TextView
             android:id="@+id/emailProf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="email of this shit"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/L_Email"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="10dp"
-        >
+        android:layout_marginTop="20dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_location_on_24"
-            android:contentDescription="@string/todo" />
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_local_phone_24" />
+
+        <TextView
+            android:id="@+id/phoneNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Number of this shit"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/L_phone"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_location_on_24" />
 
         <TextView
             android:id="@+id/addProf"
@@ -125,68 +123,81 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Address of this shit"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
     </LinearLayout>
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/L_phone"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/full"
-        android:layout_marginStart="16dp"
-        android:visibility="invisible">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ET_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="phone"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="20sp"
-             />
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/L_Email"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/L_phone"
-        android:layout_marginStart="16dp"
+        android:layout_below="@id/full"
+        android:layout_marginStart="10dp"
         android:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ET_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="email"
+            android:drawableStart="@drawable/ic_baseline_email_24"
+            android:drawableLeft="@drawable/ic_baseline_email_24"
+            android:hint="@string/email"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/L_phone"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/L_Email"
+        android:layout_marginStart="10dp"
+        android:visibility="invisible">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ET_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_local_phone_24"
+            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
+            android:hint="phone"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/L_Address"
         android:layout_width="170dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/L_Email"
-        android:layout_marginStart="16dp"
+        android:layout_below="@id/L_phone"
+        android:layout_marginStart="10dp"
         android:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ET_Address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_baseline_location_on_24"
+            android:drawableLeft="@drawable/ic_baseline_location_on_24"
             android:hint="address"
             android:inputType="text"
             android:maxLines="1"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        app:sdMainFabOpenedBackgroundColor="@color/white"
+        app:sdMainFabClosedBackgroundColor="@color/white"
+        android:layout_alignParentBottom="true"
+        app:sdMainFabClosedSrc="@drawable/ic_baseline_settings_24"
+        app:sdMainFabOpenedSrc="@drawable/ic_baseline_close_24"
 
+        />
 
 </RelativeLayout>

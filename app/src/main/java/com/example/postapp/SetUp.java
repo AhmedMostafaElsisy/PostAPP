@@ -1,40 +1,38 @@
 package com.example.postapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
-
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
 import com.dx.dxloadingbutton.lib.LoadingButton;
-import com.example.postapp.dataModel.Post;
-import com.google.android.material.button.MaterialButton;
+import com.example.postapp.dataModel.ErrorModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SetUp extends AppCompatActivity implements IPickResult {
-    Bitmap bitmap;
-    LoadingButton button;
-    TextInputEditText text;
-    CircleImageView imageView;
+     Bitmap bitmap;
+      LoadingButton button;
+      TextInputEditText text;
+       CircleImageView imageView;
     private String email, password;
-    Post post = new Post();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,44 +64,56 @@ public class SetUp extends AppCompatActivity implements IPickResult {
             Toast.makeText(this, "please take image first", Toast.LENGTH_SHORT).show();
             return;
         }
-        setUserProperty();
+        if (TextUtils.isEmpty(text.getText())) {
+            Toast.makeText(this, "name is required", Toast.LENGTH_SHORT).show();
+            text.setError("this filed is required");
+            return;
+        }
+        createAccount();
     }
 
-    private void createAccount(String response) {
+    private void createAccount() {
 
         BackendlessUser user = new BackendlessUser();
         user.setProperty("email", email);
         user.setPassword(password);
+        user.setProperty("phone", null);
+        user.setProperty("location", null);
         user.setProperty("name", text.getText().toString());
-        user.setProperty("profilePic", response);
+        button.startLoading();
         Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
             public void handleResponse(BackendlessUser registeredUser) {
-                button.loadingSuccessful();
-                button.reset();
-                sendToMain();
+                setUserProperty(user);
+
             }
 
             public void handleFault(BackendlessFault fault) {
                 button.loadingFailed();
-                Toast.makeText(SetUp.this, "error", Toast.LENGTH_SHORT).show();
+                ErrorModel errorModel = new ErrorModel(fault.getCode());
+                Toast.makeText(SetUp.this, errorModel.getErrorCode(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
-    private void setUserProperty() {
+    private void setUserProperty(BackendlessUser user) {
 
-        button.startLoading();
+
         String name = text.getText().toString();
-        post.setDateUpload(new Date().toString());
+        SimpleDateFormat Format = new SimpleDateFormat("hh:mm a s, dd MMM yyyy", Locale.ENGLISH);
+        String date=  Format.format(new Date());
+
         //upload image
         Backendless.Files.Android.upload(bitmap, Bitmap.CompressFormat.PNG, 30
-                , name +post.getDateUpload()+ ".png"
+                , name + date + ".png"
                 , "userProfilePic", new AsyncCallback<BackendlessFile>() {
                     @Override
                     public void handleResponse(BackendlessFile response) {
                         String pic = response.getFileURL();
-                        createAccount(pic);
+                        user.setProperty("profilePic", pic);
+                        button.loadingSuccessful();
+                        button.reset();
+                        sendToMain();
                     }
 
                     @Override
