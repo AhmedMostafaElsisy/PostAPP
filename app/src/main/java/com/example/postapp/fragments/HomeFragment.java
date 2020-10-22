@@ -1,26 +1,31 @@
 package com.example.postapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.persistence.DataQueryBuilder;
 import com.backendless.rt.data.EventHandler;
+import com.example.postapp.PostDetails;
 import com.example.postapp.R;
 import com.example.postapp.adptor.Adaptor;
 import com.example.postapp.dataModel.Post;
 import com.wang.avi.AVLoadingIndicatorView;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Adaptor.OnPostListener {
     View view;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -43,7 +48,7 @@ public class HomeFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycleView);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        adaptor = new Adaptor(getActivity(), arrayList);
+        adaptor = new Adaptor(getActivity(), arrayList, this);
         recyclerView.setAdapter(adaptor);
     }
 
@@ -56,8 +61,7 @@ public class HomeFragment extends Fragment {
             public void handleResponse(List<Post> response) {
                 loadingIndicatorView.smoothToHide();
                 arrayList = response;
-                adaptor = new Adaptor(getActivity(), arrayList);
-                recyclerView.setAdapter(adaptor);
+                adaptor.setData(arrayList);
             }
 
             @Override
@@ -82,5 +86,15 @@ public class HomeFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onPostClick(int position) {
+        Intent intent = new Intent(getActivity().getApplicationContext(), PostDetails.class);
+        Post post = arrayList.get(position);
+        intent.putExtra("name", post.getNameUser());
+        intent.putExtra("profile", post.getProfilePic());
+        intent.putExtra("desc", post.getDescription());
+        intent.putExtra("pic", post.getPhotoUrl());
+        intent.putExtra("date", post.getDateUpload());
+        startActivity(intent) ;
+    }
 }

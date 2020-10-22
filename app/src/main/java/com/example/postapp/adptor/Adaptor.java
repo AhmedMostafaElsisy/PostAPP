@@ -25,33 +25,44 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Adaptor extends RecyclerView.Adapter<Adaptor.ViewHolder> {
     private Context mContext;
     private List<Post> arrayList;
+    private OnPostListener onPostListener;
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CircleImageView profileImage;
         TextView desc, name, date;
         ImageView imageView;
+        OnPostListener onPostListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnPostListener onPostListener) {
             super(itemView);
             profileImage = itemView.findViewById(R.id.post_circleImage);
             desc = itemView.findViewById(R.id.post_desc);
             name = itemView.findViewById(R.id.post_userName);
             date = itemView.findViewById(R.id.post_date);
             imageView = itemView.findViewById(R.id.post_image);
+            this.onPostListener = onPostListener;
+        }
+
+        @Override
+        public void onClick(View view) {
+            onPostListener.onPostClick(getAdapterPosition());
         }
     }
 
-    public Adaptor(Context context, List<Post> arrayList) {
+    public Adaptor(Context context, List<Post> arrayList, OnPostListener onPostListener) {
         this.mContext = context;
         this.arrayList = arrayList;
+        this.onPostListener = onPostListener;
     }
-
+    public void setData(List<Post> data) {
+        arrayList = data;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post_item, parent, false);
-        ViewHolder ViewHolder = new ViewHolder(view);
+        ViewHolder ViewHolder = new ViewHolder(view, onPostListener);
         return ViewHolder;
     }
 
@@ -63,12 +74,16 @@ public class Adaptor extends RecyclerView.Adapter<Adaptor.ViewHolder> {
         holder.desc.setText(post.getDescription());
         holder.name.setText(post.getNameUser());
         holder.date.setText(post.getDateUpload());
-
+        holder.imageView.setOnClickListener(view -> onPostListener.onPostClick(position));
     }
 
     @Override
     public int getItemCount() {
         return arrayList.size();
+    }
+
+    public interface OnPostListener {
+        void onPostClick(int position);
     }
 
 }

@@ -11,10 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PostApp">
-        <activity android:name=".SetUp"></activity>
+        <activity android:name=".PostDetails"></activity>
+        <activity android:name=".SetUp" />
         <activity android:name=".SingUp" />
-        <activity android:name=".Login"></activity>
-        <activity android:name=".MainActivity" android:windowSoftInputMode="adjustPan">
+        <activity android:name=".Login" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

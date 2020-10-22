@@ -8,6 +8,9 @@
     <item
         android:id="@+id/fab_exit"
         android:icon="@drawable/ic_baseline_exit_to_app_24"
-
         android:title="@string/exit" />
+    <item
+        android:id="@+id/fab_save"
+        android:icon="@drawable/ic_baseline_save_24"
+        android:title="@string/save" />
 </menu>

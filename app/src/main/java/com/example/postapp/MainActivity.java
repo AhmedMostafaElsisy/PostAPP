@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sh = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String email = sh.getString("Email", null);
         String password = sh.getString("password", null);
-        
+
         if (email != null && password != null) {
             Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                 public void handleResponse(BackendlessUser user) {

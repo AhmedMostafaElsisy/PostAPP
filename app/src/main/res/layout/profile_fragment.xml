@@ -17,33 +17,22 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="20dp">
 
-        <TextView
-            android:id="@+id/ownerName"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/L_FullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="Lionel Messi"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/L_FullName"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/profile_image"
-            android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
-            android:visibility="gone">
+            android:enabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ET_full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="20sp"
@@ -59,88 +48,21 @@
             app:civ_border_width="3dp" />
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/full"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/gmail" />
-
-        <TextView
-            android:id="@+id/emailProf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="email of this shit"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/L_Email"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_local_phone_24" />
-
-        <TextView
-            android:id="@+id/phoneNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Number of this shit"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/L_phone"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_location_on_24" />
-
-        <TextView
-            android:id="@+id/addProf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Address of this shit"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/L_Email"
-        android:layout_width="170dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/full"
         android:layout_marginStart="10dp"
-        android:visibility="invisible">
+        android:ems="10"
+        android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ET_Email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_baseline_email_24"
-            android:drawableLeft="@drawable/ic_baseline_email_24"
+            android:drawablePadding="10dp"
             android:hint="@string/email"
             android:inputType="text"
             android:maxLines="1"
@@ -149,19 +71,19 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/L_phone"
-        android:layout_width="170dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/L_Email"
         android:layout_marginStart="10dp"
-        android:visibility="invisible">
+        android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ET_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_baseline_local_phone_24"
-            android:drawableLeft="@drawable/ic_baseline_local_phone_24"
-            android:hint="phone"
+            android:drawablePadding="10dp"
+            android:hint="@string/phone"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="20sp" />
@@ -169,19 +91,19 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/L_Address"
-        android:layout_width="170dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/L_phone"
         android:layout_marginStart="10dp"
-        android:visibility="invisible">
+        android:enabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ET_Address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_baseline_location_on_24"
-            android:drawableLeft="@drawable/ic_baseline_location_on_24"
-            android:hint="address"
+            android:drawablePadding="10dp"
+            android:hint="@string/address"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="20sp" />
@@ -192,12 +114,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        app:sdMainFabOpenedBackgroundColor="@color/white"
-        app:sdMainFabClosedBackgroundColor="@color/white"
         android:layout_alignParentBottom="true"
+        app:sdMainFabClosedBackgroundColor="@color/white"
         app:sdMainFabClosedSrc="@drawable/ic_baseline_settings_24"
-        app:sdMainFabOpenedSrc="@drawable/ic_baseline_close_24"
+        app:sdMainFabOpenedBackgroundColor="@color/white"
+        app:sdMainFabOpenedSrc="@drawable/ic_baseline_close_24" />
 
-        />
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi_Profile"
+        style="@style/AVLoadingIndicatorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:indicatorColor="@color/blue"
+        app:indicatorName="BallClipRotatePulseIndicator" />
 
 </RelativeLayout>
