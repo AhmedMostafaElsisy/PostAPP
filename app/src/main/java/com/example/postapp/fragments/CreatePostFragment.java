@@ -2,12 +2,14 @@ package com.example.postapp.fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,12 +24,11 @@ import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.example.postapp.MainActivity;
 import com.example.postapp.R;
 import com.example.postapp.dataModel.Post;
-import com.google.android.material.button.MaterialButton;
-import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.enums.EPickType;
 import com.vansuita.pickimage.listeners.IPickCancel;
-import com.vansuita.pickimage.listeners.IPickResult;
+
 
 import java.util.Date;
 
@@ -48,40 +49,24 @@ public class CreatePostFragment extends Fragment {
         editText = view.findViewById(R.id.new_post_desc);
         button = view.findViewById(R.id.post_btn);
         progressBar = view.findViewById(R.id.new_post_progress);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                uploadPost();
-            }
-        });
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                picImage();
-            }
-        });
+        button.setOnClickListener(view -> uploadPost());
+        imageView.setOnClickListener(view -> picImage());
         return view;
     }
 
     public void picImage() {
-        PickImageDialog.build(new PickSetup())
-                .setOnPickResult(new IPickResult() {
-                    @Override
-                    public void onPickResult(PickResult r) {
-                        if (r.getError() == null) {
-                            bitmap = r.getBitmap();
-                            imageView.setImageBitmap(bitmap);
+        PickImageDialog.build(new PickSetup().setButtonOrientation(LinearLayout.HORIZONTAL))
+                .setOnPickResult(r -> {
+                    if (r.getError() == null) {
+                        bitmap = r.getBitmap();
+                        imageView.setImageBitmap(bitmap);
 
-                        } else {
-                            Toast.makeText(getActivity(), r.getError().getMessage(), Toast.LENGTH_LONG).show();
-                        }
+                    } else {
+                        Toast.makeText(getActivity(), r.getError().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 })
-                .setOnPickCancel(new IPickCancel() {
-                    @Override
-                    public void onCancelClick() {
-                        //TODO: do what you have to if user clicked cancel
-                    }
+                .setOnPickCancel(() -> {
+                    //TODO: do what you have to if user clicked cancel
                 }).show(getFragmentManager());
     }
 
@@ -124,7 +109,7 @@ public class CreatePostFragment extends Fragment {
                             @Override
                             public void handleFault(BackendlessFault fault) {
                                 button.loadingFailed();
-                                Toast.makeText(getActivity(), "postUpload problem", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -133,7 +118,7 @@ public class CreatePostFragment extends Fragment {
                     @Override
                     public void handleFault(BackendlessFault fault) {
                         button.loadingFailed();
-                        Toast.makeText(getActivity(), "image upload problem", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

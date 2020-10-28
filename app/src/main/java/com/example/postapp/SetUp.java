@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
@@ -13,7 +14,6 @@ import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
 import com.backendless.files.BackendlessFile;
 import com.dx.dxloadingbutton.lib.LoadingButton;
-import com.example.postapp.dataModel.ErrorModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -31,7 +31,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
       TextInputEditText text;
        CircleImageView imageView;
     private String email, password;
-
+    BackendlessUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class SetUp extends AppCompatActivity implements IPickResult {
     }
 
     public void picImage(View view) {
-        PickImageDialog.build(new PickSetup()).show(this);
+        PickImageDialog.build(new PickSetup().setButtonOrientation(LinearLayout.HORIZONTAL)).show(this);
     }
 
     @Override
@@ -74,23 +74,23 @@ public class SetUp extends AppCompatActivity implements IPickResult {
 
     private void createAccount() {
 
-        BackendlessUser user = new BackendlessUser();
-        user.setProperty("email", email);
-        user.setPassword(password);
-        user.setProperty("phone", null);
-        user.setProperty("location", null);
-        user.setProperty("name", text.getText().toString());
+
+        mUser = new BackendlessUser();
+        mUser.setProperty("email", email);
+        mUser.setPassword(password);
+        mUser.setProperty("phone", null);
+        mUser.setProperty("location", null);
+        mUser.setProperty("name", text.getText().toString());
         button.startLoading();
-        Backendless.UserService.register(user, new AsyncCallback<BackendlessUser>() {
+        Backendless.UserService.register(mUser, new AsyncCallback<BackendlessUser>() {
             public void handleResponse(BackendlessUser registeredUser) {
-                setUserProperty(user);
+                setUserProperty(mUser);
 
             }
 
             public void handleFault(BackendlessFault fault) {
                 button.loadingFailed();
-                ErrorModel errorModel = new ErrorModel(fault.getCode());
-                Toast.makeText(SetUp.this, errorModel.getErrorCode(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SetUp.this,fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -111,15 +111,29 @@ public class SetUp extends AppCompatActivity implements IPickResult {
                     public void handleResponse(BackendlessFile response) {
                         String pic = response.getFileURL();
                         user.setProperty("profilePic", pic);
-                        button.loadingSuccessful();
-                        button.reset();
-                        sendToMain();
+
+
+                        Backendless.UserService.update(user, new AsyncCallback<BackendlessUser>() {
+                            public void handleResponse(BackendlessUser user) {
+                                button.loadingSuccessful();
+                                button.loadingSuccessful();
+                                button.reset();
+                                sendToMain();
+                            }
+
+                            public void handleFault(BackendlessFault fault) {
+                                button.loadingFailed();
+                                Toast.makeText(SetUp.this,fault.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
                     }
 
                     @Override
                     public void handleFault(BackendlessFault fault) {
                         button.loadingFailed();
-                        Toast.makeText(SetUp.this, "image upload problem", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SetUp.this,fault.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

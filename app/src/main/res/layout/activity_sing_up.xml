@@ -8,18 +8,6 @@
     android:padding="20dp"
     tools:context=".SingUp">
 
-    <ProgressBar
-        android:id="@+id/reg_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
     <Button
         android:id="@+id/confirm"
         android:layout_width="wrap_content"
@@ -32,7 +20,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/signup_password"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
 
@@ -41,12 +29,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:hint="@string/password"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:layout_constraintBottom_toTopOf="@id/confirm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signup_email"
@@ -69,6 +57,8 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="24dp"
         android:hint="@string/email"
         android:textColor="@color/black"
         android:textColorHint="@color/black"

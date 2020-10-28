@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.backendless.Backendless;
 import com.backendless.async.callback.AsyncCallback;
 import com.backendless.exceptions.BackendlessFault;
@@ -32,11 +30,12 @@ public class HomeFragment extends Fragment implements Adaptor.OnPostListener {
     private Adaptor adaptor;
     List<Post> arrayList = new ArrayList<>();
     private AVLoadingIndicatorView loadingIndicatorView;
+    DataQueryBuilder queryBuilder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-// Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.home_fragment, container, false);
         loadingIndicatorView = view.findViewById(R.id.avi);
         getData();
@@ -50,16 +49,20 @@ public class HomeFragment extends Fragment implements Adaptor.OnPostListener {
         recyclerView.setLayoutManager(layoutManager);
         adaptor = new Adaptor(getActivity(), arrayList, this);
         recyclerView.setAdapter(adaptor);
+
     }
 
     private void getData() {
         setUpRecycleView();
-        DataQueryBuilder builder = DataQueryBuilder.create();
-        builder.setSortBy("created DESC");
-        Backendless.Data.of(Post.class).find(builder, new AsyncCallback<List<Post>>() {
+
+        queryBuilder = DataQueryBuilder.create();
+        queryBuilder.setPageSize(100);
+        queryBuilder.setSortBy("created DESC");
+        Backendless.Data.of(Post.class).find(queryBuilder, new AsyncCallback<List<Post>>() {
             @Override
             public void handleResponse(List<Post> response) {
                 loadingIndicatorView.smoothToHide();
+
                 arrayList = response;
                 adaptor.setData(arrayList);
             }
@@ -67,27 +70,28 @@ public class HomeFragment extends Fragment implements Adaptor.OnPostListener {
             @Override
             public void handleFault(BackendlessFault fault) {
 
-                Toast.makeText(getActivity(), "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
         EventHandler<Post> rt = Backendless.Data.of(Post.class).rt();
         rt.addCreateListener(new AsyncCallback<Post>() {
             @Override
             public void handleResponse(Post response) {
                 arrayList.add(response);
                 adaptor.notifyDataSetChanged();
+
             }
 
             @Override
             public void handleFault(BackendlessFault fault) {
-
+                Toast.makeText(getActivity(), fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
-
     @Override
     public void onPostClick(int position) {
+
         Intent intent = new Intent(getActivity().getApplicationContext(), PostDetails.class);
         Post post = arrayList.get(position);
         intent.putExtra("name", post.getNameUser());
@@ -95,6 +99,6 @@ public class HomeFragment extends Fragment implements Adaptor.OnPostListener {
         intent.putExtra("desc", post.getDescription());
         intent.putExtra("pic", post.getPhotoUrl());
         intent.putExtra("date", post.getDateUpload());
-        startActivity(intent) ;
+        startActivity(intent);
     }
 }

@@ -5,11 +5,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
-
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
@@ -19,7 +16,7 @@ import com.example.postapp.fragments.CreatePostFragment;
 import com.example.postapp.fragments.HomeFragment;
 import com.example.postapp.fragments.ProfileFragment;
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView;
-import com.gauravk.bubblenavigation.listener.BubbleNavigationChangeListener;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,11 +25,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Backendless.initApp(this, "B32BE1D7-649E-293E-FFD9-95FCDBD09300", "03C5A0C3-41BE-4556-8777-1A69B58A1AAD");
+        Backendless.initApp(this, "290E3DAA-329C-BD01-FF85-3F4C5898E500", "1AC31B70-1843-4B00-962F-2483B09E784C");
         SharedPreferences sh = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String email = sh.getString("Email", null);
         String password = sh.getString("password", null);
-
         if (email != null && password != null) {
             Backendless.UserService.login(email, password, new AsyncCallback<BackendlessUser>() {
                 public void handleResponse(BackendlessUser user) {
@@ -61,16 +57,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    bubbleNavigationLinearView.setNavigationChangeListener(new BubbleNavigationChangeListener() {
-                        @Override
-                        public void onNavigationChanged(View view, int position) {
-                            viewPager.setCurrentItem(position, true);
-                        }
-                    });
+                    bubbleNavigationLinearView.setNavigationChangeListener((view, position) -> viewPager.setCurrentItem(position, true));
                 }
 
                 public void handleFault(BackendlessFault fault) {
-                    Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, fault.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 

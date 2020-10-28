@@ -9,9 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
@@ -54,13 +52,13 @@ public class Login extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString("Email", email.getText().toString());
                 editor.putString("password", password.getText().toString());
-                editor.commit();
+                editor.apply();
                 sendToMain();
             }
 
             public void handleFault(BackendlessFault fault) {
                 login.loadingFailed();
-                Toast.makeText(Login.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, fault.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
